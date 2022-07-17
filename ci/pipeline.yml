@@ -10,7 +10,7 @@ resources:
   - name: repo
     type: git
     source:
-      uri: https://github.com/making/hello-nodejs.git
+      uri: https://github.com/dbha/hello-nodejs-demo.git
       branch: master
   - name: docker
     type: docker-image
