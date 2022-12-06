@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: hello-nodejs-demo
+  description: hello-nodejs-demo Application
+  tags:
+    - java
+    - spring
+    - web
+    - tanzu
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=hello-nodejs-gitops'
+spec:
+  type: service
+  lifecycle: experimental
+  owner: devops
+  system: devops
