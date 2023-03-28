@@ -70,4 +70,4 @@ accelerator:
     #     - type: RewritePath
     #       rewriteTo: "'README.md'"
 
-    - type: Provenance
+    # - type: Provenance
