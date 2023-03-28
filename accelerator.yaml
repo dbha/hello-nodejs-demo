@@ -6,68 +6,65 @@ accelerator:
   - nodejs
   - getting-started
 
-#   # options for the UI
-#   options:
-#   - name: includeTap
-#     label: "Include TAP deployment resources?"
-#     inputType: checkbox
-#     dataType: boolean
-#     defaultValue: no
+  options:
+    - name: title
+      label: Title
+      description: Title text for the application
+      inputType: text
+      dataType: string
+      defaultValue: "A Node.js sample app"
 
-#   imports:
-#     - name: tap-workload
+    - name: gitUrl
+      label: Git Repository URL
+      description: Git Repository URL of the application's source code
+      inputType: text
+      dataType: string
+      defaultValue: "https://github.com/dbha/hello-nodejs-demo.git"
 
-# engine:
-#   merge:
-#     - include: [ "**" ]
-#       exclude: [ "package.json", "config/**", "catalog/**", "README.md", "DEPLOYING.md" ]
+    - name: gitBranch
+      label: Git Repository Branch
+      description: Git Repository Branch of the application's source code
+      inputType: text
+      dataType: string
+      defaultValue: "main"
 
-#     - include: [ "package.json" ]
-#       chain:
-#       - type: ReplaceText
-#         substitutions:
-#         - text: hello-nodejs
-#           with: "#artifactId"
+    - name: publisherRepository
+      inputType: text
+      label: Name of repository to use for the publisher container image
+      defaultValue: index.docker.io/springdeveloper/spring-sensors-publisher
+      description: The repository name to use for the publisher image built as part of this sample. Specify server/repository that match what was specified for registry.server and registry.repository for ootb-supply-chain-basic.
+      required: true
 
-#     - include: [ "config/workload.yaml" ]
-#       condition: "#includeTap"
-#       chain:
-#       - type: ReplaceText
-#         substitutions:
-#         - text: hello-nodejs
-#           with: "#artifactId"
-#       - merge:
-#           - type: InvokeFragment
-#             reference: tap-workload
-#           - include: [ "**" ]
-#         onConflict: UseFirst
 
-#     - include: [ "catalog/catalog-info.yaml" ]
-#       condition: "#includeTap"
-#       chain:
-#       - type: ReplaceText
-#         substitutions:
-#         - text: hello-nodejs
-#           with: "#artifactId"
-          
-    # - name: README
-    #   type: Combo
-    #   onConflict: Append
-    #   merge:
-    #   - include: [ "README.md"]
-    #     chain:
+engine:
+  merge:
+    - include: [ "**" ]
+      exclude: [ "config/workload.yaml", "catalog/*.yaml" ]
+    - include: [ "config/workload.yaml" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: https://github.com/dbha/hello-nodejs-demo.git
+              with: "#gitUrl"
+            - text: main
+              with: "#gitBranch"
+        - type: RewritePath
+          rewriteTo: "'config/' + #filename"
+    # - include: [ "src/main/resources/application.yaml" ]
+    #   chain:
     #     - type: ReplaceText
     #       substitutions:
-    #       - text: hello-nodejs
-    #         with: "#artifactId"
-    #   - include: [ "DEPLOYING.md" ]
-    #     condition: "#includeTap"
-    #     chain:
+    #          - text: Sensor Database
+    #            with: "#title"
+    # - include: [ "demo/publisher-deployment.yaml", "demo/publisher-image.yaml" ]
+    #   chain:
     #     - type: ReplaceText
     #       substitutions:
-    #       - text: hello-nodejs
-    #         with: "#artifactId"
-    #     - type: RewritePath
-    #       rewriteTo: "'README.md'"
-
-    # - type: Provenance
+    #         - text: dev.local/spring-sensors-publisher
+    #           with: "#publisherRepository"
+    - include: [ "catalog/*.yaml" ]
+      chain:
+      - type: ReplaceText
+        substitutions:
+        - text: hello-nodejs
+          with: "#artifactId"
