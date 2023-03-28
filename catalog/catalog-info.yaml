@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: hello-nodejs
+  description: Node Sample App
+  tags:
+    - app-accelerator
+    - node
+    - tanzu
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=hello-nodejs'
+spec:
+  type: service
+  lifecycle: experimental
+  owner: default-team
