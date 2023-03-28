@@ -12,7 +12,7 @@ accelerator:
     label: "Include TAP deployment resources?"
     inputType: checkbox
     dataType: boolean
-    defaultValue: true
+    defaultValue: no
 
   imports:
     - name: tap-workload
