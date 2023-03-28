@@ -6,49 +6,49 @@ accelerator:
   - nodejs
   - getting-started
 
-  # options for the UI
-  options:
-  - name: includeTap
-    label: "Include TAP deployment resources?"
-    inputType: checkbox
-    dataType: boolean
-    defaultValue: no
+#   # options for the UI
+#   options:
+#   - name: includeTap
+#     label: "Include TAP deployment resources?"
+#     inputType: checkbox
+#     dataType: boolean
+#     defaultValue: no
 
-  imports:
-    - name: tap-workload
+#   imports:
+#     - name: tap-workload
 
-engine:
-  merge:
-    - include: [ "**" ]
-      exclude: [ "package.json", "config/**", "catalog/**", "README.md", "DEPLOYING.md" ]
+# engine:
+#   merge:
+#     - include: [ "**" ]
+#       exclude: [ "package.json", "config/**", "catalog/**", "README.md", "DEPLOYING.md" ]
 
-    - include: [ "package.json" ]
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: hello-nodejs
-          with: "#artifactId"
+#     - include: [ "package.json" ]
+#       chain:
+#       - type: ReplaceText
+#         substitutions:
+#         - text: hello-nodejs
+#           with: "#artifactId"
 
-    - include: [ "config/workload.yaml" ]
-      condition: "#includeTap"
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: hello-nodejs
-          with: "#artifactId"
-      - merge:
-          - type: InvokeFragment
-            reference: tap-workload
-          - include: [ "**" ]
-        onConflict: UseFirst
+#     - include: [ "config/workload.yaml" ]
+#       condition: "#includeTap"
+#       chain:
+#       - type: ReplaceText
+#         substitutions:
+#         - text: hello-nodejs
+#           with: "#artifactId"
+#       - merge:
+#           - type: InvokeFragment
+#             reference: tap-workload
+#           - include: [ "**" ]
+#         onConflict: UseFirst
 
-    - include: [ "catalog/catalog-info.yaml" ]
-      condition: "#includeTap"
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: hello-nodejs
-          with: "#artifactId"
+#     - include: [ "catalog/catalog-info.yaml" ]
+#       condition: "#includeTap"
+#       chain:
+#       - type: ReplaceText
+#         substitutions:
+#         - text: hello-nodejs
+#           with: "#artifactId"
           
     # - name: README
     #   type: Combo
